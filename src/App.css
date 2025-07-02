@@ -1,5 +1,6 @@
 #root {
   text-align: center;
+  background-color: #010B13;
 }
 
 
@@ -7,6 +8,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
