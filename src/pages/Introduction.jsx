@@ -1,6 +1,9 @@
 import React from "react";
 import ProfileCard from "../components/ProfileCard";
 import ShinyText from "../components/ShinyText";
+import { GmailB } from "../components/WhatsappB";
+import { LinkedinB } from "../components/LinkedinB";
+import { InstagramB } from "../components/InstagramB";
 import "./Introduction.css";
 
 export const Introduction = () => {
@@ -31,7 +34,9 @@ export const Introduction = () => {
             </div>
 
             <div className="contact-info" >
-                Feel free to connect or explore more below.
+                <GmailB />
+                <LinkedinB />
+                <InstagramB />
             </div>
 
         </div>
