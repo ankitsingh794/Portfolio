@@ -1,14 +1,25 @@
-import React from 'react'
-import { BrowserRouter as Router} from 'react-router-dom'
-import Introduction from './pages/Introduction'
-import './App.css'
+import React from 'react';
+import Layout from './components/Layout';
+import BootSequence from './components/sections/BootSequence';
+import KernelInit from './components/sections/KernelInit';
+import SystemIdentity from './components/sections/SystemIdentity';
+import ProcessTimeline from './components/sections/ProcessTimeline';
+import WindowManager from './components/sections/WindowManager';
+import SystemArchitecture from './components/sections/SystemArchitecture';
+import Shutdown from './components/sections/Shutdown';
 
 function App() {
   return (
-    <Router>
-        <Introduction />
-    </Router>
-  )
+    <Layout>
+      <BootSequence />
+      <KernelInit />
+      <SystemIdentity />
+      <ProcessTimeline />
+      <WindowManager />
+      <SystemArchitecture />
+      <Shutdown />
+    </Layout>
+  );
 }
 
-export default App
+export default App;

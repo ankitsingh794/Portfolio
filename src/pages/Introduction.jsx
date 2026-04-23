@@ -1,46 +1,42 @@
-import React from "react";
-import ProfileCard from "../components/ProfileCard";
-import ShinyText from "../components/ShinyText";
-import { GmailB } from "../components/WhatsappB";
-import { LinkedinB } from "../components/LinkedinB";
-import { InstagramB } from "../components/InstagramB";
-import "./Introduction.css";
+import AuroraBackground from '../components/AuroraBackground'
+import Hero from '../components/sections/Hero'
+import About from '../components/sections/About'
+import Projects from '../components/sections/Projects'
+import Skills from '../components/sections/Skills'
+import Stats from '../components/sections/Stats'
+import Contact from '../components/sections/Contact'
+import './Introduction.css'
 
 export const Introduction = () => {
-    return (
-        <div className="introduction" >
-            
-            <div className="intro-text">
-                <ShinyText
-                    text="Hey fam! Welcome to my Portfolio."
-                    disabled={false}
-                    speed={3}
-                    className="custom-class"
-                />
-            </div>
-
-            <div className="profile-section">
-                <ProfileCard
-                    name="Ankit Singh"
-                    title="Software Engineer"
-                    handle="ankitsingh794"
-                    status="Online"
-                    contactText="Contact Me"
-                    avatarUrl="https://res.cloudinary.com/divulwxho/image/upload/v1751456065/WhatsApp_Image_2025-07-02_at_17.00.05_63987d7e-removebg-preview_mntuxp.png"
-                    showUserInfo={true}
-                    enableTilt={true}
-                    onContactClick={() => console.log('Contact clicked')}
-                />
-            </div>
-
-            <div className="contact-info" >
-                <GmailB />
-                <LinkedinB />
-                <InstagramB />
-            </div>
-
+  return (
+    <div className="introduction">
+      <AuroraBackground />
+      
+      <nav className="nav-bar">
+        <div className="nav-links">
+          <a href="#hero">Home</a>
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#stats">Stats</a>
+          <a href="#contact">Contact</a>
         </div>
-    );
-};
+      </nav>
 
-export default Introduction;
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Stats />
+        <Contact />
+      </main>
+
+      <footer className="footer">
+        <p>© 2026 Ankit Singh. Built with React</p>
+      </footer>
+    </div>
+  )
+}
+
+export default Introduction

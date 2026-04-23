@@ -1,0 +1,9 @@
+.aurora-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: linear-gradient(135deg, #0a0a1a 0%, #0d0d1f 50%, #0a0a1a 100%);
+}
