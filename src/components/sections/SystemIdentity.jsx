@@ -4,7 +4,7 @@ import { gsap } from '../../lib/gsap';
 import ProfileCard from '../ProfileCard';
 
 const neofetchLines = [
-  { label: 'OS', value: 'Frontend Engineer' },
+  { label: 'OS', value: 'Software Development Engineer' },
   { label: 'Kernel', value: 'System Thinker' },
   { label: 'Shell', value: 'React + JavaScript' },
   { label: 'Stack', value: 'Node · Express · MongoDB' },
@@ -73,7 +73,7 @@ const SystemIdentity = () => {
         <div className="flex flex-col gap-8 max-w-lg">
           <div className="name-text opacity-0">
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-2">Ankit Singh</h2>
-            <p className="font-mono text-[var(--color-accent)] text-sm tracking-wider">Frontend Engineer · System Thinker</p>
+            <p className="font-mono text-[var(--color-accent)] text-sm tracking-wider">Software Development Engineer · System Thinker</p>
           </div>
           <div className="info-box opacity-0 bg-[var(--color-bg-elevated)] rounded-lg border border-[var(--color-border)] p-6 font-mono text-sm">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--color-border)]">
