@@ -6,6 +6,7 @@ import SystemIdentity from './components/sections/SystemIdentity';
 import ProcessTimeline from './components/sections/ProcessTimeline';
 import WindowManager from './components/sections/WindowManager';
 import SystemArchitecture from './components/sections/SystemArchitecture';
+import LeetCodeStats from './components/sections/LeetCodeStats';
 import Shutdown from './components/sections/Shutdown';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <ProcessTimeline />
       <WindowManager />
       <SystemArchitecture />
+      <LeetCodeStats />
       <Shutdown />
     </Layout>
   );

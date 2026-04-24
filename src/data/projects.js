@@ -37,7 +37,7 @@ export const projects = [
       'RESTful API with Express.js',
     ],
     tech: ['React', 'Node.js', 'Express', 'MongoDB'],
-    liveUrl: null,
+    liveUrl: 'https://bookio-omega.vercel.app/',
     github: 'https://github.com/ankitsingh794/Bookio-frontend',
     windowColor: '#1e1e3f',
   },

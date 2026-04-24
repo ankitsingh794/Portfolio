@@ -41,19 +41,30 @@ export const timelineSteps = [
     status: 'RUNNING',
     progress: 90,
     title: 'Building the Future',
-    description: 'Real-time systems with Socket.IO. AI-powered features. Cloud deployment. Thinking in architectures, not just components. The journey continues.',
+    description: 'Real-time systems with Socket.IO. Atlassian plugin development with Jira Forge. Cloud deployment. Thinking in architectures, not just components.',
     icon: '🚀',
   },
 ];
 
+// status: 'loaded' = proven by shipped work, 'learning' = actively developing
 export const skillModules = [
-  { name: 'react.mod', label: 'React.js', delay: 0 },
-  { name: 'node.runtime', label: 'Node.js', delay: 0.15 },
-  { name: 'express.framework', label: 'Express.js', delay: 0.30 },
-  { name: 'mongodb.driver', label: 'MongoDB', delay: 0.45 },
-  { name: 'redis.cache', label: 'Redis', delay: 0.60 },
-  { name: 'javascript.core', label: 'JavaScript', delay: 0.75 },
-  { name: 'cpp.compiler', label: 'C++', delay: 0.90 },
-  { name: 'system-design.core', label: 'System Design', delay: 1.05 },
-  { name: 'aws.cloud', label: 'AWS (learning)', delay: 1.20 },
+  // ── Proven ──
+  { name: 'javascript.core', label: 'JavaScript', status: 'loaded' },
+  { name: 'react.mod', label: 'React', status: 'loaded' },
+  { name: 'node.runtime', label: 'Node.js', status: 'loaded' },
+  { name: 'express.framework', label: 'Express.js', status: 'loaded' },
+  { name: 'mongodb.driver', label: 'MongoDB', status: 'loaded' },
+  { name: 'redis.cache', label: 'Redis', status: 'loaded' },
+  { name: 'socketio.realtime', label: 'Socket.IO', status: 'loaded' },
+  { name: 'jira-forge.plugin', label: 'Jira Forge', status: 'loaded' },
+  { name: 'atlassian.sdk', label: 'Atlassian Plugins', status: 'loaded' },
+
+  // ── Learning (shown as warnings) ──
+  { name: 'python.core', label: 'Python', status: 'learning' },
+  { name: 'sql.relational', label: 'SQL / PostgreSQL', status: 'learning' },
+  { name: 'typescript.typed', label: 'TypeScript', status: 'learning' },
+  { name: 'aws.cloud', label: 'AWS', status: 'learning' },
+  { name: 'docker.container', label: 'Docker', status: 'learning' },
+  { name: 'dsa.algorithms', label: 'DSA', status: 'learning' },
+  { name: 'system-design.core', label: 'System Design', status: 'learning' },
 ];
