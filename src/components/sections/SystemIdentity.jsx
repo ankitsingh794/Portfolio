@@ -31,31 +31,40 @@ const SystemIdentity = () => {
     const divider = container.querySelector('.section-divider');
     const infoBox = container.querySelector('.info-box');
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: '+=500%',
-        scrub: 0.8,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
+    let mm = gsap.matchMedia();
+    
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions;
 
-    tl.fromTo(sectionLabel, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.6 }, 0);
-    tl.fromTo(profileSection, { opacity: 0, scale: 0.85, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: 'power3.out' }, 0.5);
-    tl.fromTo(nameText, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 2.5);
-    tl.fromTo(infoBox, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 3.2);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: isDesktop ? 'top top' : 'top 85%',
+          end: isDesktop ? '+=500%' : 'bottom 10%',
+          scrub: 0.8,
+          pin: isDesktop,
+          anticipatePin: isDesktop ? 1 : 0,
+        },
+      });
 
-    infoLines.forEach((line, i) => {
-      tl.fromTo(line, { opacity: 0, x: -15 }, { opacity: 1, x: 0, duration: 0.3 }, 3.5 + i * 0.2);
-    });
+      tl.fromTo(sectionLabel, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.6 }, 0);
+      tl.fromTo(profileSection, { opacity: 0, scale: 0.85, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: 'power3.out' }, 0.5);
+      tl.fromTo(nameText, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 2.5);
+      tl.fromTo(infoBox, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 3.2);
 
-    const p3 = 3.5 + neofetchLines.length * 0.2 + 1.5;
-    tl.fromTo(divider, { scaleX: 0 }, { scaleX: 1, duration: 0.8 }, p3);
+      infoLines.forEach((line, i) => {
+        tl.fromTo(line, { opacity: 0, x: -15 }, { opacity: 1, x: 0, duration: 0.3 }, 3.5 + i * 0.2);
+      });
 
-    aboutText.forEach((para, i) => {
-      tl.fromTo(para, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, p3 + 1 + i * 0.6);
+      const p3 = 3.5 + neofetchLines.length * 0.2 + 1.5;
+      tl.fromTo(divider, { scaleX: 0 }, { scaleX: 1, duration: 0.8 }, p3);
+
+      aboutText.forEach((para, i) => {
+        tl.fromTo(para, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, p3 + 1 + i * 0.6);
+      });
     });
   }, []);
 

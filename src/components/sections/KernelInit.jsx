@@ -46,84 +46,93 @@ const KernelInit = () => {
     const controlSub = container.querySelector('.control-sub');
     const summary = container.querySelector('.kernel-summary');
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: '+=550%',
-        scrub: 0.8,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
+    let mm = gsap.matchMedia();
+    
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions;
 
-    /* Phase 1: Heading */
-    tl.fromTo(heading,
-      { opacity: 0, y: 30, filter: 'blur(8px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' },
-      0
-    );
-    tl.fromTo(headingDesc,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      0.5
-    );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: isDesktop ? 'top top' : 'top 85%',
+          end: isDesktop ? '+=550%' : 'bottom 10%',
+          scrub: 0.8,
+          pin: isDesktop,
+          anticipatePin: isDesktop ? 1 : 0,
+        },
+      });
 
-    /* Phase 2: Loaded categories */
-    categories.forEach((cat, i) => {
-      tl.fromTo(cat,
-        { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
-        1.5 + i * 0.5
+      /* Phase 1: Heading */
+      tl.fromTo(heading,
+        { opacity: 0, y: 30, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' },
+        0
+      );
+      tl.fromTo(headingDesc,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        0.5
+      );
+
+      /* Phase 2: Loaded categories */
+      categories.forEach((cat, i) => {
+        tl.fromTo(cat,
+          { opacity: 0, y: 25 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+          1.5 + i * 0.5
+        );
+      });
+
+      /* Phase 3: Module tiles pop in */
+      moduleTiles.forEach((tile, i) => {
+        tl.fromTo(tile,
+          { opacity: 0, scale: 0.85, y: 10 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: 'back.out(1.4)' },
+          2 + i * 0.1
+        );
+      });
+
+      /* Phase 4: Warning section + tiles */
+      const warningStart = 2 + moduleTiles.length * 0.1 + 1.5;
+
+      tl.fromTo(warningSection,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        warningStart
+      );
+
+      warningTiles.forEach((tile, i) => {
+        tl.fromTo(tile,
+          { opacity: 0, x: -15 },
+          { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' },
+          warningStart + 0.4 + i * 0.15
+        );
+      });
+
+      /* Phase 5: Summary + Statement */
+      const phase5Start = warningStart + 0.4 + warningTiles.length * 0.15 + 1.5;
+
+      tl.fromTo(summary,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        phase5Start
+      );
+
+      tl.fromTo(controlText,
+        { opacity: 0, y: 30, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' },
+        phase5Start + 1.2
+      );
+
+      tl.fromTo(controlSub,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        phase5Start + 2
       );
     });
-
-    /* Phase 3: Module tiles pop in */
-    moduleTiles.forEach((tile, i) => {
-      tl.fromTo(tile,
-        { opacity: 0, scale: 0.85, y: 10 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: 'back.out(1.4)' },
-        2 + i * 0.1
-      );
-    });
-
-    /* Phase 4: Warning section + tiles */
-    const warningStart = 2 + moduleTiles.length * 0.1 + 1.5;
-
-    tl.fromTo(warningSection,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      warningStart
-    );
-
-    warningTiles.forEach((tile, i) => {
-      tl.fromTo(tile,
-        { opacity: 0, x: -15 },
-        { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' },
-        warningStart + 0.4 + i * 0.15
-      );
-    });
-
-    /* Phase 5: Summary + Statement */
-    const phase5Start = warningStart + 0.4 + warningTiles.length * 0.15 + 1.5;
-
-    tl.fromTo(summary,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-      phase5Start
-    );
-
-    tl.fromTo(controlText,
-      { opacity: 0, y: 30, filter: 'blur(8px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' },
-      phase5Start + 1.2
-    );
-
-    tl.fromTo(controlSub,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      phase5Start + 2
-    );
 
   }, []);
 

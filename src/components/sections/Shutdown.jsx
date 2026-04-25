@@ -85,43 +85,52 @@ const Shutdown = () => {
     const termBlock = container.querySelector('.term-block');
     const linksHeading = container.querySelector('.links-heading');
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: '+=500%',
-        scrub: 0.8,
-        pin: true,
-        anticipatePin: 1,
-      },
+    let mm = gsap.matchMedia();
+    
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: isDesktop ? 'top top' : 'top 85%',
+          end: isDesktop ? '+=500%' : 'bottom 10%',
+          scrub: 0.8,
+          pin: isDesktop,
+          anticipatePin: isDesktop ? 1 : 0,
+        },
+      });
+
+      // Phase 1: Avatar + heading + subtext
+      tl.fromTo(avatar, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, ease: 'power3.out' }, 0);
+      tl.fromTo(heading, { opacity: 0, y: 25, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 0.6);
+      tl.fromTo(subtext, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8 }, 1.2);
+
+      // Phase 2: Terminal block
+      tl.fromTo(termBlock, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.8 }, 2.5);
+      lines.forEach((line, i) => {
+        tl.fromTo(line, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.5 }, 3 + i * 0.4);
+      });
+
+      // Phase 3: Connect cards (spread out)
+      const cardsStart = 3 + lines.length * 0.4 + 2;
+      tl.fromTo(linksHeading, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6 }, cardsStart - 0.5);
+
+      cards.forEach((card, i) => {
+        tl.fromTo(card,
+          { opacity: 0, y: 30, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' },
+          cardsStart + i * 0.5
+        );
+      });
+
+      // Phase 4: Footer
+      const footerStart = cardsStart + cards.length * 0.5 + 2;
+      tl.fromTo(footer, { opacity: 0 }, { opacity: 1, duration: 0.5 }, footerStart);
     });
-
-    // Phase 1: Avatar + heading + subtext
-    tl.fromTo(avatar, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, ease: 'power3.out' }, 0);
-    tl.fromTo(heading, { opacity: 0, y: 25, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 0.6);
-    tl.fromTo(subtext, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8 }, 1.2);
-
-    // Phase 2: Terminal block
-    tl.fromTo(termBlock, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.8 }, 2.5);
-    lines.forEach((line, i) => {
-      tl.fromTo(line, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.5 }, 3 + i * 0.4);
-    });
-
-    // Phase 3: Connect cards (spread out)
-    const cardsStart = 3 + lines.length * 0.4 + 2;
-    tl.fromTo(linksHeading, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6 }, cardsStart - 0.5);
-
-    cards.forEach((card, i) => {
-      tl.fromTo(card,
-        { opacity: 0, y: 30, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' },
-        cardsStart + i * 0.5
-      );
-    });
-
-    // Phase 4: Footer
-    const footerStart = cardsStart + cards.length * 0.5 + 2;
-    tl.fromTo(footer, { opacity: 0 }, { opacity: 1, duration: 0.5 }, footerStart);
   }, []);
 
   return (

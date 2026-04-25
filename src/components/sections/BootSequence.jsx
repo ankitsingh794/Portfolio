@@ -34,80 +34,88 @@ const BootSequence = () => {
     const introLines = container.querySelectorAll('.intro-line');
     const glitchBg = container.querySelector('.glitch-bg');
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: '+=400%',
-        scrub: 0.8,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
+    let mm = gsap.matchMedia();
+    
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions;
 
-    // Phase 1: LetterGlitch bg fades out as we scroll, intro text fades
-    tl.to(glitchBg, {
-      opacity: 0,
-      duration: 2,
-      ease: 'power2.in',
-    }, 0.5);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: isDesktop ? 'top top' : 'top 85%',
+          end: isDesktop ? '+=400%' : 'bottom 10%',
+          scrub: 0.8,
+          pin: isDesktop,
+          anticipatePin: isDesktop ? 1 : 0,
+        },
+      });
 
-    introLines.forEach((line, i) => {
-      tl.to(line, {
+      // Phase 1: LetterGlitch bg fades out as we scroll, intro text fades
+      tl.to(glitchBg, {
         opacity: 0,
-        y: -30,
-        duration: 0.5,
+        duration: 2,
         ease: 'power2.in',
-      }, 1 + i * 0.15);
-    });
+      }, 0.5);
 
-    // Phase 2: Boot lines appear one by one
-    lines.forEach((line, i) => {
-      const isError = line.classList.contains('error-line');
-      const isPanic = line.classList.contains('panic-line');
-      const isWarning = line.classList.contains('warning-line');
+      introLines.forEach((line, i) => {
+        tl.to(line, {
+          opacity: 0,
+          y: -30,
+          duration: 0.5,
+          ease: 'power2.in',
+        }, 1 + i * 0.15);
+      });
 
-      tl.fromTo(line,
-        { opacity: 0, x: isPanic ? -5 : 0 },
-        { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' },
-        2.5 + i * 0.4
-      );
+      // Phase 2: Boot lines appear one by one
+      lines.forEach((line, i) => {
+        const isError = line.classList.contains('error-line');
+        const isPanic = line.classList.contains('panic-line');
+        const isWarning = line.classList.contains('warning-line');
 
-      if (isError || isWarning) {
-        tl.to(line, { x: gsap.utils.random(-3, 3), duration: 0.1, yoyo: true, repeat: 3 }, 2.5 + i * 0.4 + 0.3);
-      }
-
-      if (isPanic) {
-        tl.fromTo(flash,
-          { opacity: 0 },
-          { opacity: 0.4, duration: 0.08, yoyo: true, repeat: 1 },
+        tl.fromTo(line,
+          { opacity: 0, x: isPanic ? -5 : 0 },
+          { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' },
           2.5 + i * 0.4
         );
-      }
+
+        if (isError || isWarning) {
+          tl.to(line, { x: gsap.utils.random(-3, 3), duration: 0.1, yoyo: true, repeat: 3 }, 2.5 + i * 0.4 + 0.3);
+        }
+
+        if (isPanic) {
+          tl.fromTo(flash,
+            { opacity: 0 },
+            { opacity: 0.4, duration: 0.08, yoyo: true, repeat: 1 },
+            2.5 + i * 0.4
+          );
+        }
+      });
+
+      // Phase 3: Hero reveal
+      const heroStart = 2.5 + lines.length * 0.4 + 1.5;
+
+      tl.to(container.querySelector('.boot-lines'), {
+        opacity: 0.15,
+        y: -30,
+        duration: 1,
+        ease: 'power2.in',
+      }, heroStart - 0.5);
+
+      tl.fromTo(heroText,
+        { opacity: 0, y: 40, filter: 'blur(12px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' },
+        heroStart
+      );
+
+      tl.fromTo(subText,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+        heroStart + 0.8
+      );
     });
-
-    // Phase 3: Hero reveal
-    const heroStart = 2.5 + lines.length * 0.4 + 1.5;
-
-    tl.to(container.querySelector('.boot-lines'), {
-      opacity: 0.15,
-      y: -30,
-      duration: 1,
-      ease: 'power2.in',
-    }, heroStart - 0.5);
-
-    tl.fromTo(heroText,
-      { opacity: 0, y: 40, filter: 'blur(12px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' },
-      heroStart
-    );
-
-    tl.fromTo(subText,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
-      heroStart + 0.8
-    );
-
   }, []);
 
   return (

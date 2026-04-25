@@ -66,78 +66,86 @@ const SystemArchitecture = () => {
     const principlesLabel = container.querySelector('.principles-label');
     const statsLabel = container.querySelector('.stats-label');
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: '+=750%',
-        scrub: 0.6,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
+    let mm = gsap.matchMedia();
+    
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions;
 
-    /* ── Phase 1: Heading (0 → 1.5) ── */
-    tl.fromTo(heading,
-      { opacity: 0, y: 40, filter: 'blur(10px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
-      0
-    );
-    tl.fromTo(headingLine,
-      { scaleX: 0 },
-      { scaleX: 1, duration: 1.2, ease: 'power3.out' },
-      0.8
-    );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: isDesktop ? 'top top' : 'top 85%',
+          end: isDesktop ? '+=750%' : 'bottom 10%',
+          scrub: 0.6,
+          pin: isDesktop,
+          anticipatePin: isDesktop ? 1 : 0,
+        },
+      });
 
-    /* ── Phase 2: Architecture diagram (2.5 → 6) ── */
-    tl.fromTo(diagramLabel,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      2.5
-    );
-
-    layerCards.forEach((card, i) => {
-      const fromX = i % 2 === 0 ? -60 : 60;
-      tl.fromTo(card,
-        { opacity: 0, x: fromX, scale: 0.9, filter: 'blur(5px)' },
-        { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' },
-        3 + i * 0.6
+      /* ── Phase 1: Heading (0 → 1.5) ── */
+      tl.fromTo(heading,
+        { opacity: 0, y: 40, filter: 'blur(10px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
+        0
       );
-    });
-
-    dataPackets.forEach((packet, i) => {
-      tl.fromTo(packet,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4 },
-        5.5 + i * 0.2
+      tl.fromTo(headingLine,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 1.2, ease: 'power3.out' },
+        0.8
       );
-    });
 
-    /* ── Phase 3: Stats (7 → 10) ── */
-    tl.fromTo(statsLabel,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      7
-    );
-
-    statCards.forEach((card, i) => {
-      tl.fromTo(card,
-        { opacity: 0, y: 30, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)' },
-        7.8 + i * 0.4
+      /* ── Phase 2: Architecture diagram (2.5 → 6) ── */
+      tl.fromTo(diagramLabel,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        2.5
       );
-    });
 
-    statNumbers.forEach((el, i) => {
-      const target = stats[i].value;
-      const obj = { val: 0 };
-      tl.to(obj, {
-        val: target,
-        duration: 2,
-        ease: 'power2.out',
-        onUpdate: () => {
-          if (el) {
-            el.textContent = target % 1 !== 0
+      layerCards.forEach((card, i) => {
+        const fromX = i % 2 === 0 ? -60 : 60;
+        tl.fromTo(card,
+          { opacity: 0, x: fromX, scale: 0.9, filter: 'blur(5px)' },
+          { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' },
+          3 + i * 0.6
+        );
+      });
+
+      dataPackets.forEach((packet, i) => {
+        tl.fromTo(packet,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4 },
+          5.5 + i * 0.2
+        );
+      });
+
+      /* ── Phase 3: Stats (7 → 10) ── */
+      tl.fromTo(statsLabel,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        7
+      );
+
+      statCards.forEach((card, i) => {
+        tl.fromTo(card,
+          { opacity: 0, y: 30, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)' },
+          7.8 + i * 0.4
+        );
+      });
+
+      statNumbers.forEach((el, i) => {
+        const target = stats[i].value;
+        const obj = { val: 0 };
+        tl.to(obj, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          onUpdate: () => {
+            if (el) {
+              el.textContent = target % 1 !== 0
               ? obj.val.toFixed(1)
               : Math.round(obj.val).toLocaleString();
           }
@@ -146,26 +154,27 @@ const SystemArchitecture = () => {
     });
 
     /* ── Phase 4: Principles (10.5 → 13) ── */
-    tl.fromTo(principlesLabel,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      10.5
-    );
+      tl.fromTo(principlesLabel,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        10.5
+      );
 
-    principleCards.forEach((card, i) => {
-      tl.fromTo(card,
-        { opacity: 0, y: 25, x: i % 2 === 0 ? -20 : 20 },
-        { opacity: 1, y: 0, x: 0, duration: 0.8, ease: 'power3.out' },
-        11 + i * 0.5
+      principleCards.forEach((card, i) => {
+        tl.fromTo(card,
+          { opacity: 0, y: 25, x: i % 2 === 0 ? -20 : 20 },
+          { opacity: 1, y: 0, x: 0, duration: 0.8, ease: 'power3.out' },
+          11 + i * 0.5
+        );
+      });
+
+      /* ── Phase 5: Quote (13.5 → 15) ── */
+      tl.fromTo(quote,
+        { opacity: 0, y: 30, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' },
+        13.5
       );
     });
-
-    /* ── Phase 5: Quote (13.5 → 15) ── */
-    tl.fromTo(quote,
-      { opacity: 0, y: 30, filter: 'blur(8px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' },
-      13.5
-    );
 
   }, []);
 

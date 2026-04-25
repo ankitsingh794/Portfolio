@@ -45,7 +45,7 @@ const ProcessTimeline = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="section-full flex-col bg-[var(--color-bg)] overflow-hidden" id="process-timeline">
+    <section ref={containerRef} className="section-full flex-col bg-bg overflow-hidden" id="process-timeline">
       <div className="px-6 md:px-8 w-full max-w-6xl mx-auto mb-14">
         <div className="tl-heading opacity-0">
           <span className="font-mono text-xs text-[var(--color-accent)] tracking-widest uppercase block mb-3">

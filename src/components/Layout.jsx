@@ -9,16 +9,7 @@ const Layout = ({ children }) => {
       {/* Neon Grid Background */}
       <div className="neon-grid" />
 
-      {/* Flowing neon lines — horizontal */}
-      <div className="neon-line-h" />
-      <div className="neon-line-h" />
-      <div className="neon-line-h" />
-      <div className="neon-line-h" />
 
-      {/* Flowing neon lines — vertical */}
-      <div className="neon-line-v" />
-      <div className="neon-line-v" />
-      <div className="neon-line-v" />
 
       {/* Corner accents */}
       <div className="corner-accent corner-accent--tl" />
